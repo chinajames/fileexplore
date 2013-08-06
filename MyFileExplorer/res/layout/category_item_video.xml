@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/category_video"
+    style="@style/CategoryButtonStyle"
+    android:background="@drawable/category_button_top" >
+
+    <ImageView
+        style="@style/CategoryButtonIconStyle"
+        android:src="@drawable/category_icon_video" />
+
+    <TextView
+        style="@style/CategoryButtonTextStyle"
+        android:text="@string/category_video" />
+
+    <TextView
+        android:id="@+id/category_video_count"
+        style="@style/CategoryButtonCountTextStyle" />
+
+</LinearLayout>

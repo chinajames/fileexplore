@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/category_apk"
+    style="@style/CategoryButtonStyle"
+    android:background="@drawable/category_button_bottom" >
+
+    <ImageView
+        style="@style/CategoryButtonIconStyle"
+        android:src="@drawable/category_icon_apk" />
+
+    <TextView
+        style="@style/CategoryButtonTextStyle"
+        android:text="@string/category_apk" />
+
+    <TextView
+        android:id="@+id/category_apk_count"
+        style="@style/CategoryButtonCountTextStyle" />
+
+</LinearLayout>
