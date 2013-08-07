@@ -4,25 +4,39 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.MediaStore.MediaColumns;
 
 public class FileDbHelper extends SQLiteOpenHelper{
 
-	public FileDbHelper(Context context, String name, CursorFactory factory,
-			int version) {
-		super(context, name, factory, version);
+	private static final int DATABASE_VERSION = 2;
+	private static final String DB_NAME = "external.db";
+	public static final String DICTIONARY_TABLE_NAME = "dictionary";
+	private static String DICTIONARY_TABLE_CREATE  = 
+												  "CREATE TABLE " +
+												  DICTIONARY_TABLE_NAME +
+												 " ("+ MediaColumns._ID+" TEXT PRIMARY KEY,"//id
+												  + MediaColumns.DATA + " TEXT,"//结尾类型　如：.zip
+												  +MediaColumns.DATE_ADDED+" DATA,"//添加时间
+												  +MediaColumns.DISPLAY_NAME+" TEXT,"//地址path
+												  +MediaColumns.TITLE+" TEXT,"//文件名
+												  +MediaColumns.MIME_TYPE+" TEXT,"//文件的mime类型
+												  +MediaColumns.SIZE+" DOUBLE"//文件的大小
+												 +")";
+
+	public FileDbHelper(Context context) {
+		super(context, DB_NAME, null, DATABASE_VERSION);
 		
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
-		
+		db.execSQL(DICTIONARY_TABLE_CREATE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
-		
+		db.execSQL("drop table if exists " + DICTIONARY_TABLE_NAME);
+		db.execSQL(DICTIONARY_TABLE_CREATE);
 	}
 
 }
