@@ -22,6 +22,7 @@ package net.micode.fileexplorer;
 import java.util.ArrayList;
 
 import net.micode.fileexplorer.FileCategoryHelper.FileCategory;
+import net.micode.fileexplorer.provider.MediaScannerService;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -53,7 +54,7 @@ public class FileExplorerTabActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         setContentView(R.layout.fragment_pager);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(DEFAULT_OFFSCREEN_PAGES);
@@ -70,7 +71,7 @@ public class FileExplorerTabActivity extends Activity {
                 ServerControlActivity.class, null);
         bar.setSelectedNavigationItem(PreferenceManager.getDefaultSharedPreferences(this)
                 .getInt(INSTANCESTATE_TAB, Util.CATEGORY_TAB_INDEX));
-      
+        startService(new Intent(this, MediaScannerService.class));
     }
 
 

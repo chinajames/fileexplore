@@ -222,7 +222,8 @@ public class FileCategoryHelper {
     }
 
     public Cursor query(FileCategory fc, SortMethod sort) {
-        Uri uri = getContentUriByCategory(fc);
+//        Uri uri = getContentUriByCategory(fc);
+        Uri uri = Uri.parse("content://" + "net.micode.fileexplorer" + "/dictionary");
         String selection = buildSelectionByCategory(fc);
         String sortOrder = buildSortOrder(sort);
 
@@ -247,15 +248,19 @@ public class FileCategoryHelper {
         // query database
         String volumeName = "external";
 
-        Uri uri = Audio.Media.getContentUri(volumeName);
+//        Uri uri = Audio.Media.getContentUri(volumeName);
+        Uri uri = Uri.parse("content://" + "net.micode.fileexplorer" + "/dictionary");
         refreshMediaCategory(FileCategory.Music, uri);
 
-        uri = Video.Media.getContentUri(volumeName);
+        uri = Uri.parse("content://" + "net.micode.fileexplorer" + "/dictionary");
+//        uri = Video.Media.getContentUri(volumeName);
         refreshMediaCategory(FileCategory.Video, uri);
 
-        uri = Images.Media.getContentUri(volumeName);
+        uri = Uri.parse("content://" + "net.micode.fileexplorer" + "/dictionary");
+//        uri = Images.Media.getContentUri(volumeName);
         refreshMediaCategory(FileCategory.Picture, uri);
 
+        uri = Uri.parse("content://" + "net.micode.fileexplorer" + "/dictionary");
         uri = Files.getContentUri(volumeName);
         refreshMediaCategory(FileCategory.Theme, uri);
         refreshMediaCategory(FileCategory.Doc, uri);

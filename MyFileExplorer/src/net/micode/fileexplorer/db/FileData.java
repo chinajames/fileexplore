@@ -5,7 +5,7 @@ public class FileData {
 	/**id 取路径的md5*/
 public  String _id;
 /**文件的大小*/
-public Double _size;
+public String _size;
 /**文件的名字*/
 public String title;
 /**添加时间*/
