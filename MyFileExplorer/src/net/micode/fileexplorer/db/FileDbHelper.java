@@ -13,7 +13,7 @@ public class FileDbHelper extends SQLiteOpenHelper{
 	private static String DICTIONARY_TABLE_CREATE  = 
 												  "CREATE TABLE " +
 												  DICTIONARY_TABLE_NAME +
-												 " ("+ MediaColumns._ID+" TEXT,"//id
+												 " ("+ MediaColumns._ID+" TEXT PRIMARY KEY,"//id
 												  + MediaColumns.DATA + " TEXT,"//结尾类型　如：.zip
 												  +MediaColumns.DATE_ADDED+" TEXT,"//添加时间
 												  +MediaColumns.DISPLAY_NAME+" TEXT,"//地址path

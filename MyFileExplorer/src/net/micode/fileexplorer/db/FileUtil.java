@@ -17,11 +17,12 @@ public class FileUtil {
 		String path = file.getAbsolutePath();
 		if (path.contains(".")) {
 			int start = path.lastIndexOf(".");
-			data._data = path.substring(start+1,path.length());
-			data.mime_type = MimeUtils.guessMimeTypeFromExtension(data._data);
-			data.title = file.getName().substring(0, start);
+			String suffix = path.substring(start+1,path.length());
+			data.mime_type = MimeUtils.guessMimeTypeFromExtension(suffix);
+			data.title = path.substring(0, start); 
 		}
-		data._display_name = path;
+		data._display_name = file.getName();
+		data._data = path;
 		data._id = getId(path);
 		data._size = String.valueOf(file.length());
 		data.date_added = String.valueOf(new Date().getTime());
@@ -34,18 +35,27 @@ public class FileUtil {
 	 * @param dao
 	 */
 	public static void addFile(File file,FileDBdao dao){
-		FileData data = getFileData(file);
-		dao.insertFileData(data);
+		
 		if (file.isDirectory()) {
 			File[] listFiles = file.listFiles();
 			Log.e("addFile", listFiles+"");
 			if (listFiles!=null) {
 				for (File childFile : listFiles) {
 					addFile(childFile,dao);
+				} 
+			}
+		}else if (file.isFile()) {
+			FileData data = getFileData(file);
+			String path = file.getAbsolutePath();
+			if (path.contains(".")) {
+				int start = path.lastIndexOf(".");
+				String extend = path.substring(start+1,path.length());
+				if(MimeUtils.guessMimeTypeFromExtension(extend)!=null){
+					dao.insertFileData(data);
 				}
 			}
 		}
-	}
+	} 
 	
 	public static String getId(String key){
 		 MessageDigest md;

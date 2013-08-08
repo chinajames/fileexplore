@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- Copyright (c) 2010-2011, The MiCode Open Source Community (www.micode.net)
+<!--
+ Copyright (c) 2010-2011, The MiCode Open Source Community (www.micode.net)
 
  * This file is part of FileExplorer.
  *
@@ -35,23 +36,29 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:label="TestService"
+        android:targetPackage="net.micode.fileexplorer" />
+
     <application
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light"
-        android:uiOptions="splitActionBarWhenNarrow">
+        android:uiOptions="splitActionBarWhenNarrow" >
         <activity
             android:name=".FileExplorerTabActivity"
             android:configChanges="screenSize|keyboardHidden"
             android:screenOrientation="sensor"
-            android:uiOptions="splitActionBarWhenNarrow">
-            <intent-filter >
-                <action android:name="com.voole.fileexplorer"/>
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <intent-filter>
+                <action android:name="com.voole.fileexplorer" />
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.PICK" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -61,18 +68,17 @@
 
                 <data android:scheme="file" />
             </intent-filter>
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
-				
+
                 <category android:name="android.intent.category.OPENABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
-
         <activity android:name=".net.micode.fileexplorer.SearchActivity" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -82,11 +88,10 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-
         <activity
+            android:name="FileExplorerPreferenceActivity"
             android:label="@string/menu_setting"
             android:launchMode="singleTop"
-            android:name="FileExplorerPreferenceActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
 
@@ -95,6 +100,15 @@
             android:value=".SearchActivity" />
 
         <service android:name=".FTPServerService" />
+
+        <uses-library android:name="android.test.runner" />
+
+        <service android:name="net.micode.fileexplorer.provider.MediaScannerService" />
+
+        <provider
+            android:name="net.micode.fileexplorer.provider.MediaProvider"
+            android:authorities="net.micode.fileexplorer" >
+        </provider>
     </application>
 
 </manifest>

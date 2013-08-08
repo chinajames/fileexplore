@@ -16,6 +16,6 @@ public String date_modified;
 public String mime_type;
 /**文件*/
 public String _display_name;
-/**文件后缀类型 如:.zip*/
+/**文件后缀类型 如:.zip filename*/
 public String _data;
 }

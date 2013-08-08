@@ -28,9 +28,9 @@ import android.provider.MediaStore.Files.FileColumns;
 import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Video;
 import android.util.Log;
-
 import net.micode.fileexplorer.FileSortHelper.SortMethod;
 import net.micode.fileexplorer.MediaFile.MediaFileType;
+import net.micode.fileexplorer.provider.MediaProvider;
 
 import java.io.FilenameFilter;
 import java.util.HashMap;
@@ -168,9 +168,18 @@ public class FileCategoryHelper {
             case Zip:
                 selection = "(" + FileColumns.MIME_TYPE + " == '" + Util.sZipFileMimeType + "')";
                 break;
-            case Apk:
-                selection = FileColumns.DATA + " LIKE '%.apk'";
+            case Music:
+                selection = FileColumns.MIME_TYPE + " LIKE 'audio%'";
                 break;
+            case Video:
+            	selection = FileColumns.MIME_TYPE + " LIKE 'video%'";
+            	break;
+            case Picture:
+            	selection = FileColumns.MIME_TYPE + " LIKE 'image%'";
+            	break;
+            case Apk:
+            	selection = FileColumns.MIME_TYPE + " LIKE '%vnd.android.package-archive'";
+            	break;
             default:
                 selection = null;
         }
@@ -222,7 +231,8 @@ public class FileCategoryHelper {
     }
 
     public Cursor query(FileCategory fc, SortMethod sort) {
-        Uri uri = getContentUriByCategory(fc);
+//        Uri uri = getContentUriByCategory(fc);
+        Uri uri = Uri.parse(MediaProvider.content_uri);
         String selection = buildSelectionByCategory(fc);
         String sortOrder = buildSortOrder(sort);
 
@@ -264,6 +274,9 @@ public class FileCategoryHelper {
     }
 
     private boolean refreshMediaCategory(FileCategory fc, Uri uri) {
+    	uri = Uri.parse(MediaProvider.content_uri);
+    	
+    	
         String[] columns = new String[] {
                 "COUNT(*)", "SUM(_size)"
         };

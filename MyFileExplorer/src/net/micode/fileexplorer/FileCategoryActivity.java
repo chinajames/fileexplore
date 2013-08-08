@@ -459,7 +459,7 @@ public class FileCategoryActivity extends Fragment implements IFileInteractionLi
         Cursor c = mFileCagetoryHelper.query(curCategory, sort.getSortMethod());
         showEmptyView(c == null || c.getCount() == 0);
         mAdapter.changeCursor(c);
-
+        Log.e(LOG_TAG, c.getCount()+"getColumnCount-----------------");
         return true;
     }
 

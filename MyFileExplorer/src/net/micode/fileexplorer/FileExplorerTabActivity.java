@@ -22,6 +22,7 @@ package net.micode.fileexplorer;
 import java.util.ArrayList;
 
 import net.micode.fileexplorer.FileCategoryHelper.FileCategory;
+import net.micode.fileexplorer.provider.MediaScannerService;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -85,22 +86,22 @@ public class FileExplorerTabActivity extends Activity {
 //       Uri.parse("file://" + Environment.getExternalStorageDirectory())));
      
         this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-        
-        	connection = new MediaScannerConnection(this, new MediaScannerConnectionClient() {
-			@Override
-			public void onScanCompleted(String path, Uri uri) {
-				Log.e(TAG, "MediaScannerConnectionClient onScanCompleted " +uri+" path "+ path);
-				connection.disconnect(); 
-			}
-			
-			@Override
-			public void onMediaScannerConnected() {
-				Log.e(TAG, "MediaScannerConnectionClient onMediaScannerConnected");
-				connection.scanFile("/mnt/", "image/jpeg"); 
-			}
-		});
-        connection.connect();
-       
+//        
+//        	connection = new MediaScannerConnection(this, new MediaScannerConnectionClient() {
+//			@Override
+//			public void onScanCompleted(String path, Uri uri) {
+//				Log.e(TAG, "MediaScannerConnectionClient onScanCompleted " +uri+" path "+ path);
+//				connection.disconnect(); 
+//			}
+//			
+//			@Override
+//			public void onMediaScannerConnected() {
+//				Log.e(TAG, "MediaScannerConnectionClient onMediaScannerConnected");
+//				connection.scanFile("/mnt/", "image/jpeg"); 
+//			}
+//		});
+//        connection.connect(); 
+       startService( new Intent(this,MediaScannerService.class));
     }
 
     class Client implements MediaScannerConnectionClient{
