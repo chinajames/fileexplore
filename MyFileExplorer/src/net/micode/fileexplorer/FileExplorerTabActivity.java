@@ -22,7 +22,6 @@ package net.micode.fileexplorer;
 import java.util.ArrayList;
 
 import net.micode.fileexplorer.FileCategoryHelper.FileCategory;
-import net.micode.fileexplorer.provider.MediaScannerService;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -30,9 +29,14 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.media.MediaScannerConnection;
+import android.media.MediaScannerConnection.MediaScannerConnectionClient;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -46,6 +50,7 @@ public class FileExplorerTabActivity extends Activity {
 
     private static final int DEFAULT_OFFSCREEN_PAGES = 2;
 	private static final String TAG = "FileExplorerTabActivity";
+	MediaScannerConnection connection = null;
     ViewPager mViewPager;
     TabsAdapter mTabsAdapter;
     ActionMode mActionMode;
@@ -54,7 +59,7 @@ public class FileExplorerTabActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         setContentView(R.layout.fragment_pager);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(DEFAULT_OFFSCREEN_PAGES);
@@ -71,7 +76,48 @@ public class FileExplorerTabActivity extends Activity {
                 ServerControlActivity.class, null);
         bar.setSelectedNavigationItem(PreferenceManager.getDefaultSharedPreferences(this)
                 .getInt(INSTANCESTATE_TAB, Util.CATEGORY_TAB_INDEX));
-        startService(new Intent(this, MediaScannerService.class));
+//        IntentFilter intentfilter = new IntentFilter( Intent.ACTION_MEDIA_SCANNER_STARTED); 
+//       intentfilter.addAction(Intent.ACTION_MEDIA_SCANNER_FINISHED); 
+//       intentfilter.addDataScheme("file"); 
+       
+       
+//       sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, 
+//       Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+     
+        this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+        
+        	connection = new MediaScannerConnection(this, new MediaScannerConnectionClient() {
+			@Override
+			public void onScanCompleted(String path, Uri uri) {
+				Log.e(TAG, "MediaScannerConnectionClient onScanCompleted " +uri+" path "+ path);
+				connection.disconnect(); 
+			}
+			
+			@Override
+			public void onMediaScannerConnected() {
+				Log.e(TAG, "MediaScannerConnectionClient onMediaScannerConnected");
+				connection.scanFile("/mnt/", "image/jpeg"); 
+			}
+		});
+        connection.connect();
+       
+    }
+
+    class Client implements MediaScannerConnectionClient{
+    	MediaScannerConnection connection;
+    	public Client(MediaScannerConnection connection){
+    		this.connection = connection;
+    	}
+		@Override
+		public void onMediaScannerConnected() {
+			 connection.scanFile(Environment.getExternalStorageDirectory().getAbsolutePath(), null);
+		}
+
+		@Override
+		public void onScanCompleted(String path, Uri uri) {
+			Log.e(TAG, "MediaScannerConnectionClient onScanCompleted");
+			
+		}
     }
 
 
