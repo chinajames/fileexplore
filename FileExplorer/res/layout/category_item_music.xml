@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/category_music"
+    style="@style/CategoryButtonStyle"
+    android:background="@drawable/category_button_top" >
+
+    <ImageView
+        style="@style/CategoryButtonIconStyle"
+        android:src="@drawable/category_icon_music" />
+
+    <TextView
+        style="@style/CategoryButtonTextStyle"
+        android:text="@string/category_music" />
+
+    <TextView
+        android:id="@+id/category_music_count"
+        style="@style/CategoryButtonCountTextStyle" />
+
+</LinearLayout>
